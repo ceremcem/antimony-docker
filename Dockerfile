@@ -19,7 +19,11 @@ ENV LC_ALL en_US.UTF-8
 
 RUN mkdir /opt/builder && chown builder:builder /opt/builder
 WORKDIR /opt/builder
-USER builder
+
+RUN apt-get install git -y
 
 # Install Qt 5.4 last so that everything else is cached
-RUN sudo apt-get install qt5-default -y
+RUN echo "deb http://ftp.se.debian.org/debian/ stretch main" >> /etc/apt/sources.list.d/stretch.list
+RUN apt-get update --fix-missing && apt-get -t stretch install qt5-default -y
+
+USER builder
