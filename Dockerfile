@@ -27,3 +27,10 @@ RUN echo "deb http://ftp.se.debian.org/debian/ stretch main" >> /etc/apt/sources
 RUN apt-get update --fix-missing && apt-get -t stretch install qt5-default -y
 
 USER builder
+
+RUN git clone https://github.com/mkeeter/antimony && cd antimony && \
+    git checkout tags/0.9.0c && mkdir build && cd build && \
+    qmake ../sb.pro && make -j2
+
+RUN mkdir antimony/build/app/share
+WORKDIR /opt/builder/antimony/build/app/share
